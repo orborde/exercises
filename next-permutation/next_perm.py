@@ -99,7 +99,6 @@ def test():
         elements = range(1, arr_len + 1)
         assert len(elements) == arr_len
         for arr in itertools.product(elements, repeat=arr_len):
-            print arr
             test_cycle(arr)
 
 if __name__ == '__main__':
