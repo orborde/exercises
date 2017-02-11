@@ -61,7 +61,7 @@ def permute(arr):
     subarray_end = len(arr) - 1
     subarray_start = subarray_end
     while (subarray_start > 0 and
-           arr[subarray_start-1] > arr[subarray_start]):
+           arr[subarray_start-1] >= arr[subarray_start]):
         subarray_start -= 1
 
     if subarray_start != 0:
