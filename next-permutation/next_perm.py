@@ -87,6 +87,9 @@ def test_cycle(arr):
                     cur,
                     succ))
 
+# https://stackoverflow.com/questions/3755136/pythonic-way-to-check-if-a-list-is-sorted-or-not
+def is_sorted(l):
+    return all(a <= b for a, b in itertools.izip(l[:-1], l[1:]))
 
 def test():
     for arr_len in xrange(1, 6):
@@ -99,6 +102,10 @@ def test():
         elements = range(1, arr_len + 1)
         assert len(elements) == arr_len
         for arr in itertools.product(elements, repeat=arr_len):
+            # TODO: Not the best way to do this; ideally, we wouldn't
+            # bother generating the redundant ones at all.
+            if not is_sorted(arr):
+                continue
             test_cycle(arr)
 
 if __name__ == '__main__':
