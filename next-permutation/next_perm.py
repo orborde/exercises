@@ -94,6 +94,13 @@ def test():
         arr = range(1, arr_len + 1)
         assert len(arr) == arr_len
         test_cycle(arr)
+    for arr_len in xrange(1, 6):
+        print 'TESTING W/DUPES LENGTH', arr_len
+        elements = range(1, arr_len + 1)
+        assert len(elements) == arr_len
+        for arr in itertools.product(elements, repeat=arr_len):
+            print arr
+            test_cycle(arr)
 
 if __name__ == '__main__':
     test()
