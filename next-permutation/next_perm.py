@@ -73,7 +73,7 @@ def permute(arr):
     reverse_subarray(arr, subarray_start, len(arr) - 1)
         
 def test_cycle(arr):
-    permutations = list(itertools.permutations(arr))
+    permutations = list(set(itertools.permutations(arr)))
     permutations.sort()
     for idx in xrange(len(permutations)):
         cur = list(permutations[idx])
