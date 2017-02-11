@@ -1,0 +1,8 @@
+Write a function that, given an array of integers, returns the
+next-highest permutation of that array. "Next-highest" is defined as
+the next in the list of possible permutations of that integer set,
+sorted in ascending order.
+
+For example, f([1,3,2]) = [2,1,3].
+
+Note that there may be duplicates in the array.
