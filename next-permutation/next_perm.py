@@ -32,14 +32,8 @@ class SubarrayOpsTest(unittest.TestCase):
         reverse_subarray(arr, 1, 1)
         self.assertEquals(arr, [1,2,3])
 
-def implies(x, yf):
-    if x:
-        if not yf():
-            return False
-    return True
-
 def find_insertion_point(arr, val, start, end):
-    assert implies(start > 0, lambda: arr[start-1] < arr[start])
+    assert start > 0
     for idx in xrange(start+1, end+1):
         if arr[idx] <= val:
             return idx-1
