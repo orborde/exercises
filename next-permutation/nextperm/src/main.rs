@@ -1,4 +1,4 @@
-fn find_insertion_point(v: Vec<i32>, val: i32, start: usize) -> usize {
+fn find_insertion_point(v: &Vec<i32>, val: i32, start: usize) -> usize {
     assert!(start > 0);
     assert!(v.len() > 0);
 
@@ -18,15 +18,15 @@ mod find_insertion_point {
     
     #[test]
     fn simple() {
-        assert_eq!(find_insertion_point(vec![2, 3, 1], 2, 1), 1);
-        assert_eq!(find_insertion_point(vec![1,3,2], 1, 1), 2);
-        assert_eq!(find_insertion_point(vec![1,4,3,2], 1, 1), 3);
+        assert_eq!(find_insertion_point(&vec![2, 3, 1], 2, 1), 1);
+        assert_eq!(find_insertion_point(&vec![1,3,2], 1, 1), 2);
+        assert_eq!(find_insertion_point(&vec![1,4,3,2], 1, 1), 3);
     }
 
     #[test]
     #[should_panic]
     fn bad_start() {
-        find_insertion_point(vec![2, 3, 1], 2, 0);
+        find_insertion_point(&vec![2, 3, 1], 2, 0);
     }
 }
 
