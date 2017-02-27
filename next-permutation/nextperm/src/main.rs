@@ -19,6 +19,12 @@ mod tests {
         assert_eq!(find_insertion_point(vec![1,3,2], 1, 1, 2), 2);
         assert_eq!(find_insertion_point(vec![1,4,3,2], 1, 1, 3), 3);
     }
+
+    #[test]
+    #[should_panic]
+    fn bad_start() {
+        find_insertion_point(vec![2, 3, 1], 2, 0, 2);
+    }
 }
 
 fn main() {
