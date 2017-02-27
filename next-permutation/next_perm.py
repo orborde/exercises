@@ -32,8 +32,9 @@ class SubarrayOpsTest(unittest.TestCase):
         reverse_subarray(arr, 1, 1)
         self.assertEquals(arr, [1,2,3])
 
-def find_insertion_point(arr, val, start, end):
+def find_insertion_point(arr, val, start):
     assert start > 0
+    end = len(arr)-1
     for idx in xrange(start+1, end+1):
         if arr[idx] <= val:
             return idx-1
@@ -42,18 +43,17 @@ def find_insertion_point(arr, val, start, end):
 class InsertionPointTest(unittest.TestCase):
     def test_simples(self):
         self.assertEquals(
-            find_insertion_point([2,3,1], 2, 1, 2), 1)
+            find_insertion_point([2,3,1], 2, 1), 1)
         self.assertEquals(
-            find_insertion_point([1,3,2], 1, 1, 2), 2)
+            find_insertion_point([1,3,2], 1, 1), 2)
         self.assertEquals(
-            find_insertion_point([1,4,3,2], 1, 1, 3), 3)
+            find_insertion_point([1,4,3,2], 1, 1), 3)
 
 
 def permute(arr):
     # The right-hand subarray is in descending order. Figure out how
     # far left that subarray goes.
-    subarray_end = len(arr) - 1
-    subarray_start = subarray_end
+    subarray_start = len(arr) - 1
     while (subarray_start > 0 and
            arr[subarray_start-1] >= arr[subarray_start]):
         subarray_start -= 1
@@ -61,7 +61,7 @@ def permute(arr):
     if subarray_start != 0:
         ins_val = arr[subarray_start - 1]
         ins_point = find_insertion_point(
-            arr, ins_val, subarray_start, subarray_end)
+            arr, ins_val, subarray_start)
         swap_indexes(arr, ins_point, subarray_start - 1)
 
     reverse_subarray(arr, subarray_start, len(arr) - 1)
