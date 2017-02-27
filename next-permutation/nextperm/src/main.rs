@@ -1,5 +1,15 @@
+macro_rules! implies {
+    ($a:expr, $b:expr) => {
+        if $a {
+            $b
+        } else {
+            true
+        }
+    }
+}
+
 fn find_insertion_point(v: Vec<i32>, val: i32, start: usize, end: usize) -> usize {
-    // implies here
+    assert!(implies!(start > 0, v[start-1] < v[start]));
 
     for idx in start+1 .. end+1 {
         if v[idx] <= val {
