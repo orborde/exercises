@@ -1,7 +1,7 @@
 fn find_insertion_point(v: Vec<i32>, val: i32, start: usize, end: usize) -> usize {
     // implies here
 
-    for idx in start+1 .. end {
+    for idx in start+1 .. end+1 {
         if v[idx] <= val {
             return idx-1
         }
