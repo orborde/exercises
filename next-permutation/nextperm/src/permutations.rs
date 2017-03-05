@@ -4,9 +4,29 @@ struct ElementSwaps {
 
 impl ElementSwaps {
     pub fn new(length: usize) -> ElementSwaps {
+        assert!(length >= 2);
         ElementSwaps{
             state: vec![0;length as usize]
         }
+    }
+
+    fn incr(&mut self) -> usize {
+        let mut idx = 0;
+        while idx < self.state.len() {
+            let cur = self.state[idx];
+            assert!(cur <= idx);
+
+            let carry = cur == idx;
+            if !carry {
+                self.state[idx] += 1;
+                return idx;
+            }
+
+            self.state[idx] = 0;
+            idx += 1;
+        }
+
+        idx
     }
 }
 
@@ -14,7 +34,12 @@ impl Iterator for ElementSwaps {
     type Item = (usize, usize);
 
     fn next(&mut self) -> Option< (usize, usize) > {
-        return Some( (0,0) )
+        let right_side = self.incr();
+        if right_side == self.state.len() {
+            None
+        } else {
+            Some( (right_side-1, right_side) )
+        }
     }
 }
 
