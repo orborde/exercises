@@ -1,3 +1,5 @@
+mod permutations;
+
 fn find_insertion_point(v: &Vec<i32>, val: i32, start: usize) -> usize {
     assert!(start > 0);
     assert!(v.len() > 0);
