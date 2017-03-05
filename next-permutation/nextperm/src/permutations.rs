@@ -1,12 +1,14 @@
 struct ElementSwaps {
-    state: Vec<usize>
+    state: Vec<usize>,
+    done:  bool
 }
 
 impl ElementSwaps {
     pub fn new(length: usize) -> ElementSwaps {
         assert!(length >= 2);
         ElementSwaps{
-            state: vec![0;length as usize]
+            state: vec![0;length as usize],
+            done:  false
         }
     }
 
@@ -34,11 +36,16 @@ impl Iterator for ElementSwaps {
     type Item = (usize, usize);
 
     fn next(&mut self) -> Option< (usize, usize) > {
+        if self.done {
+            return None
+        }
+
         let right_side = self.incr();
         if right_side == self.state.len() {
-            None
+            self.done = true;
+            Some( (self.state.len() - 2, self.state.len() - 1) )
         } else {
-            Some( (right_side-1, right_side) )
+            Some( (right_side - 1, right_side) )
         }
     }
 }
@@ -83,6 +90,7 @@ mod tests {
             assert_eq!(es.next().unwrap(), (0, 1));
             assert_eq!(es.next().unwrap(), (1, 2));
             assert_eq!(es.next().unwrap(), (0, 1));
+            assert_eq!(es.next().unwrap(), (1, 2));
             assert!(es.next().is_none());
         }
     }
