@@ -108,4 +108,25 @@ mod tests {
         assert_eq!(perms.next().unwrap(), vec![1, 2, 3]);
         assert!(perms.next().is_none());
     }
+
+    use std::collections::HashSet;
+    use std::iter::FromIterator;
+    fn allperms(length: usize) {
+        let mut visited: HashSet<Vec<usize>> = HashSet::new();
+        let vec = Vec::from_iter(1..(length+1));
+
+        for p in Permutations::new(vec) {
+            println!("{:?}", p);
+            assert!(!visited.contains(&p));
+            visited.insert(p);
+        }
+
+        let expected_count = 0;
+        assert_eq!(visited.len(), expected_count);
+    }
+
+    #[test]
+    fn perms4() {
+        allperms(4);
+    }
 }
