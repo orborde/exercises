@@ -93,5 +93,11 @@ mod tests {
         let v = vec![1, 2, 3];
         let mut perms = Permutations::new(v);
         assert_eq!(perms.next().unwrap(), vec![2, 1, 3]);
+        assert_eq!(perms.next().unwrap(), vec![2, 3, 1]);
+        assert_eq!(perms.next().unwrap(), vec![3, 2, 1]);
+        assert_eq!(perms.next().unwrap(), vec![3, 1, 2]);
+        assert_eq!(perms.next().unwrap(), vec![1, 3, 2]);
+        assert_eq!(perms.next().unwrap(), vec![1, 2, 3]);
+        assert!(perms.next().is_none());
     }
 }
