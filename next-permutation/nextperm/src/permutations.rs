@@ -43,18 +43,55 @@ impl Iterator for ElementSwaps {
     }
 }
 
+struct Permutations<T> {
+    swaps: ElementSwaps,
+    vec: Vec<T>
+}
+
+impl<T: Clone> Permutations<T> {
+    pub fn new(vec: Vec<T>) -> Permutations<T> {
+        Permutations {
+            swaps: ElementSwaps::new(vec.len()),
+            vec:   vec.clone()
+        }
+    }
+}
+
+impl <T: Clone> Iterator for Permutations<T> {
+    type Item = Vec<T>;
+    fn next(&mut self) -> Option<Vec<T>> {
+        match self.swaps.next() {
+            Some( (x, y) ) => {
+                self.vec.swap(x,y);
+                Some(self.vec.clone())
+            },
+            None => None
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
-    use super::ElementSwaps;
-    
+    mod internals {
+        use super::super::ElementSwaps;
+
+        #[test]
+        fn swaps3() {
+            let mut es = ElementSwaps::new(3);
+            assert_eq!(es.next().unwrap(), (0, 1));
+            assert_eq!(es.next().unwrap(), (1, 2));
+            assert_eq!(es.next().unwrap(), (0, 1));
+            assert_eq!(es.next().unwrap(), (1, 2));
+            assert_eq!(es.next().unwrap(), (0, 1));
+            assert!(es.next().is_none());
+        }
+    }
+
+    use super::Permutations;
     #[test]
-    fn simple() {
-        let mut es = ElementSwaps::new(3);
-        assert_eq!(es.next().unwrap(), (0, 1));
-        assert_eq!(es.next().unwrap(), (1, 2));
-        assert_eq!(es.next().unwrap(), (0, 1));
-        assert_eq!(es.next().unwrap(), (1, 2));
-        assert_eq!(es.next().unwrap(), (0, 1));
-        assert!(es.next().is_none());
+    fn perms3() {
+        let v = vec![1, 2, 3];
+        let mut perms = Permutations::new(v);
+        assert_eq!(perms.next().unwrap(), vec![2, 1, 3]);
     }
 }
