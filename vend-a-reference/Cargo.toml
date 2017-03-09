@@ -1,0 +1,6 @@
+[package]
+name = "vend-a-reference"
+version = "0.1.0"
+authors = ["William Ehlhardt <williamehlhardt@gmail.com>"]
+
+[dependencies]

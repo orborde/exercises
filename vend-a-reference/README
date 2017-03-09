@@ -1,0 +1,17 @@
+Consider an iterator that generates all permutations of some input
+vector; most such iterators create an entirely new vector object and
+return it with each call to next(). However, if the iterator's user is
+running some computation over each permutation, and then discarding
+it, you could just as well return a reference to the current
+permutation (stored in the iterator itself). As long as the caller
+"finishes" with the current permutation before it asks for the next
+one, you never need to create any new vectors.
+
+This library tries to demonstrate how that could work, (hopefully)
+using Rust's lifetime management semantics to prevent the caller from
+re-using the reference. Instead of something so complicated as a
+permutation generator, I've implemented a "shifter" iterator.
+
+I suspect that I haven't actually achieved the goal of safety here,
+though; Rust seems to be happy to let you keep a reference while
+calling next().
