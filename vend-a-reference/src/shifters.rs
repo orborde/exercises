@@ -47,13 +47,13 @@ impl Shifter {
     }
 }
 
-struct CopyShifter {
+pub struct CopyShifter {
     arr:   Vec<i32>,
     state: ShifterState
 }
 
 impl CopyShifter {
-    fn new(val: i32, len: usize) -> CopyShifter {
+    pub fn new(val: i32, len: usize) -> CopyShifter {
         CopyShifter {
             arr: vec![0; len],
             state: ShifterState::New{val:val}
