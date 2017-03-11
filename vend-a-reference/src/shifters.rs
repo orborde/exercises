@@ -10,20 +10,20 @@ enum ShifterState {
     Complete
 }
 
-struct Shifter {
+pub struct Shifter {
     arr:   Vec<i32>,
     state: ShifterState
 }
 
 impl Shifter {
-    fn new(val: i32, len: usize) -> Shifter {
+    pub fn new(val: i32, len: usize) -> Shifter {
         Shifter {
             arr: vec![0; len],
             state: ShifterState::New{val:val}
         }
     }
     
-    fn next(&mut self) -> Option<&Vec<i32>> {
+    pub fn next(&mut self) -> Option<&Vec<i32>> {
         match self.state {
             ShifterState::New {val} => {
                 self.arr[0] = val;
