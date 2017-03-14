@@ -104,7 +104,7 @@ mod tests {
         assert_eq!(shifter.next().unwrap(), vec![0, 0, 10]);
     }
 
-    const SIZE: usize = 10000000;
+    const SIZE: usize = 100000;
     use test::Bencher;
     #[bench]
     fn bench_copy(b: &mut Bencher) {
@@ -115,7 +115,7 @@ mod tests {
     }
 
     #[bench]
-    fn bench_quick(b: &mut Bencher) {
+    fn bench_ref(b: &mut Bencher) {
         let mut shifter = Shifter::new(1337, SIZE);
         b.iter(|| {
             shifter.next().unwrap().len()
