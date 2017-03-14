@@ -110,4 +110,24 @@ mod tests {
         assert_eq!(shifter.next().unwrap(), vec![0, 0, 10]);
         assert!(shifter.next().is_none());
     }
+
+    const SIZE: usize = 10000000;
+    use test::Bencher;
+    #[bench]
+    fn bench_copy(b: &mut Bencher) {
+        let mut shifter = CopyShifter::new(1337, SIZE);
+        b.iter(|| {
+            let sm: i32 = shifter.next().unwrap().iter().sum();
+            sm
+        });
+    }
+
+    #[bench]
+    fn bench_quick(b: &mut Bencher) {
+        let mut shifter = Shifter::new(1337, SIZE);
+        b.iter(|| {
+            let sm: i32 = shifter.next().unwrap().iter().sum();
+            sm
+        });
+    }
 }
