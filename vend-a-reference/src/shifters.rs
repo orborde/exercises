@@ -22,7 +22,7 @@ impl Shifter {
         }
     }
     
-    pub fn next(&mut self) -> Option<&Vec<i32>> {
+    pub fn next(&mut self) -> Option<&[i32]> {
         match self.state {
             ShifterState::New {val} => {
                 self.arr[0] = val;
@@ -85,12 +85,12 @@ mod tests {
     #[test]
     fn simple() {
         let mut shifter = Shifter::new(10, 3);
-        assert_eq!(*shifter.next().unwrap(), vec![10, 0, 0]);
-        assert_eq!(*shifter.next().unwrap(), vec![0, 10, 0]);
-        assert_eq!(*shifter.next().unwrap(), vec![0, 0, 10]);
-        assert_eq!(*shifter.next().unwrap(), vec![10, 0, 0]);
-        assert_eq!(*shifter.next().unwrap(), vec![0, 10, 0]);
-        assert_eq!(*shifter.next().unwrap(), vec![0, 0, 10]);
+        assert_eq!(shifter.next().unwrap(), &[10, 0, 0]);
+        assert_eq!(shifter.next().unwrap(), &[0, 10, 0]);
+        assert_eq!(shifter.next().unwrap(), &[0, 0, 10]);
+        assert_eq!(shifter.next().unwrap(), &[10, 0, 0]);
+        assert_eq!(shifter.next().unwrap(), &[0, 10, 0]);
+        assert_eq!(shifter.next().unwrap(), &[0, 0, 10]);
     }
 
     #[test]
