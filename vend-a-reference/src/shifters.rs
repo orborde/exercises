@@ -117,8 +117,7 @@ mod tests {
     fn bench_copy(b: &mut Bencher) {
         let mut shifter = CopyShifter::new(1337, SIZE);
         b.iter(|| {
-            let sm: i32 = shifter.next().unwrap().iter().sum();
-            sm
+            shifter.next().unwrap().len()
         });
     }
 
@@ -126,8 +125,7 @@ mod tests {
     fn bench_quick(b: &mut Bencher) {
         let mut shifter = Shifter::new(1337, SIZE);
         b.iter(|| {
-            let sm: i32 = shifter.next().unwrap().iter().sum();
-            sm
+            shifter.next().unwrap().len()
         });
     }
 }
