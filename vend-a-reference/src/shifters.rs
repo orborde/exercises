@@ -6,8 +6,7 @@ enum ShifterState {
     },
     Partial{
         idx: usize
-    },
-    Complete
+    }
 }
 
 pub struct Shifter {
@@ -33,16 +32,11 @@ impl Shifter {
             ShifterState::Partial{idx} => {
                 let val = self.arr[idx];
                 self.arr[idx] = 0;
-                let nidx = idx + 1;
-                if nidx == self.arr.len() - 1 {
-                    self.state = ShifterState::Complete;
-                } else {
-                    self.state = ShifterState::Partial{idx:nidx};
-                }
+                let nidx = (idx + 1) % self.arr.len();
+                self.state = ShifterState::Partial{idx:nidx};
                 self.arr[nidx] = val;
                 Some(&self.arr)
-            },
-            ShifterState::Complete => None
+            }
         }
     }
 }
@@ -74,16 +68,11 @@ impl Iterator for CopyShifter {
             ShifterState::Partial{idx} => {
                 let val = self.arr[idx];
                 self.arr[idx] = 0;
-                let nidx = idx + 1;
-                if nidx == self.arr.len() - 1 {
-                    self.state = ShifterState::Complete;
-                } else {
-                    self.state = ShifterState::Partial{idx:nidx};
-                }
+                let nidx = (idx + 1) % self.arr.len();
+                self.state = ShifterState::Partial{idx:nidx};
                 self.arr[nidx] = val;
                 Some(self.arr.clone())
-            },
-            ShifterState::Complete => None
+            }
         }
     }
 }
@@ -99,7 +88,9 @@ mod tests {
         assert_eq!(*shifter.next().unwrap(), vec![10, 0, 0]);
         assert_eq!(*shifter.next().unwrap(), vec![0, 10, 0]);
         assert_eq!(*shifter.next().unwrap(), vec![0, 0, 10]);
-        assert!(shifter.next().is_none());
+        assert_eq!(*shifter.next().unwrap(), vec![10, 0, 0]);
+        assert_eq!(*shifter.next().unwrap(), vec![0, 10, 0]);
+        assert_eq!(*shifter.next().unwrap(), vec![0, 0, 10]);
     }
 
     #[test]
@@ -108,7 +99,9 @@ mod tests {
         assert_eq!(shifter.next().unwrap(), vec![10, 0, 0]);
         assert_eq!(shifter.next().unwrap(), vec![0, 10, 0]);
         assert_eq!(shifter.next().unwrap(), vec![0, 0, 10]);
-        assert!(shifter.next().is_none());
+        assert_eq!(shifter.next().unwrap(), vec![10, 0, 0]);
+        assert_eq!(shifter.next().unwrap(), vec![0, 10, 0]);
+        assert_eq!(shifter.next().unwrap(), vec![0, 0, 10]);
     }
 
     const SIZE: usize = 10000000;
