@@ -4,7 +4,7 @@ enum ShifterState {
     New{
         val: i32,
     },
-    Partial{
+    Shifting{
         idx: usize
     }
 }
@@ -26,14 +26,14 @@ impl Shifter {
         match self.state {
             ShifterState::New {val} => {
                 self.arr[0] = val;
-                self.state = ShifterState::Partial{idx:0};
+                self.state = ShifterState::Shifting{idx:0};
                 Some(&self.arr)
             },
-            ShifterState::Partial{idx} => {
+            ShifterState::Shifting{idx} => {
                 let val = self.arr[idx];
                 self.arr[idx] = 0;
                 let nidx = (idx + 1) % self.arr.len();
-                self.state = ShifterState::Partial{idx:nidx};
+                self.state = ShifterState::Shifting{idx:nidx};
                 self.arr[nidx] = val;
                 Some(&self.arr)
             }
@@ -62,14 +62,14 @@ impl Iterator for CopyShifter {
         match self.state {
             ShifterState::New {val} => {
                 self.arr[0] = val;
-                self.state = ShifterState::Partial{idx:0};
+                self.state = ShifterState::Shifting{idx:0};
                 Some(self.arr.clone())
             },
-            ShifterState::Partial{idx} => {
+            ShifterState::Shifting{idx} => {
                 let val = self.arr[idx];
                 self.arr[idx] = 0;
                 let nidx = (idx + 1) % self.arr.len();
-                self.state = ShifterState::Partial{idx:nidx};
+                self.state = ShifterState::Shifting{idx:nidx};
                 self.arr[nidx] = val;
                 Some(self.arr.clone())
             }
