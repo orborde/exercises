@@ -11,3 +11,10 @@ This library demonstrates how that could work, using Rust's lifetime
 management semantics to prevent the caller from re-using the
 reference. Instead of something so complicated as a permutation
 generator, I've implemented a "shifter" iterator.
+
+```
+test shifters::tests::bench_copy ... bench:      19,366 ns/iter (+/- 2,773)
+test shifters::tests::bench_ref  ... bench:          15 ns/iter (+/- 0)
+```
+
+Nice!
