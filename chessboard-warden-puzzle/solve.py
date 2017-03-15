@@ -116,3 +116,21 @@ if __name__ == '__main__':
     recv = receive(permute)
     print 'recv =', recv
     assert recv == pos
+
+    # And some brute-force testing!
+    import sys
+    from tqdm import tqdm
+    for _ in tqdm(xrange(100)):
+        board = [random.choice([0, 1]) for _ in xrange(64)]
+        for pos in xrange(64):
+                permute = send(board, pos)
+                recv = receive(permute)
+                if recv != pos:
+                    print 'FAILED!'
+                    print 'pos =', pos
+                    print 'board   =', bin2str(board)
+                    print 'permute =', bin2str(permute)
+                    print 'recv =', recv
+                    sys.exit(-1)
+
+    print 'SEEMS LEGIT! :D'
