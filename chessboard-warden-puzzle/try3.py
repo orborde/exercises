@@ -1,3 +1,5 @@
+# Abortive attempt at some kind of "checksum" strategy.
+
 def checksum(bits):
     """
     >>> checksum([1, 0, 1])
