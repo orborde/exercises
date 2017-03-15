@@ -7,7 +7,7 @@ permutation (stored in the iterator itself). As long as the caller
 "finishes" with the current permutation before it asks for the next
 one, you never need to create any new vectors.
 
-This library tries to demonstrate how that could work, using Rust's
-lifetime management semantics to prevent the caller from re-using the
+This library demonstrates how that could work, using Rust's lifetime
+management semantics to prevent the caller from re-using the
 reference. Instead of something so complicated as a permutation
 generator, I've implemented a "shifter" iterator.
