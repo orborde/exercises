@@ -82,7 +82,7 @@ def send(board, position):
     flipnum = cur_parity ^ position
     #print 'flipnum =', '{:06b}'.format(flipnum), flipnum
     if flipnum == 0:
-        print 'No flip!'
+        #print 'No flip!'
         return board
     return flip(board, flipnum - 1)
 
