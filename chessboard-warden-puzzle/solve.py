@@ -1,3 +1,12 @@
+# Use the Hamming(63,57) code. This has 6 parity bits.
+#
+# Interpret the first 63 bits of the board as the codeword. Due to the
+# way the parity bits cover the codeword, flipping a single bit in the
+# codeword lets you flip an arbitrary set of bits in the 6-bit parity
+# vector. You choose the codeword bit flip that flips the bits in the
+# parity vector such that it represents the 6-bit number of the square
+# the warden picked.
+
 from memoize import memoized
 
 def bits(n):
