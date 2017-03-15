@@ -1,18 +1,3 @@
-def bitsize(n):
-    """
-    >>> bitsize(3)
-    2
-    >>> bitsize(1)
-    1
-    >>> bitsize(0)
-    0
-    """
-    rs = 0
-    while n > 0:
-        rs += 1
-        n = n / 2
-    return rs
-
 def bits(n):
     """Converts to little-endian binary.
 
