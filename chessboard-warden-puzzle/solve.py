@@ -1,3 +1,5 @@
+from memoize import memoized
+
 def bits(n):
     """Converts to little-endian binary.
 
@@ -51,6 +53,7 @@ def flip(v, pos):
 def bin2str(v):
     return ''.join(str(b) for b in v)
 
+@memoized
 def hamming_matrix(codeword_length):
     parity_covers = []
     for col in xrange(codeword_length):
