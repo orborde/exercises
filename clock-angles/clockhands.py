@@ -54,3 +54,21 @@ class Angle(unittest.TestCase):
             loff = (a - diff) % 360
             roff = (a + diff) % 360
             self.assertIn(b, [loff, roff])
+
+def clock_hands_diff(hour, minute):
+    """Compute the angle between the two hands on the face of an analog clock.
+
+    >>> clock_hands_diff(3, 15)
+    0
+    >>> clock_hands_diff(4, 15)
+    30
+    >>> clock_hands_diff(5, 15)
+    60
+    >>> clock_hands_diff(0, 1)
+    6
+    >>> clock_hands_diff(7, 45)
+    60
+    """
+    ang_h = hour2deg(hour)
+    ang_m = min2deg(minute)
+    return anglediff(ang_h, ang_m)
