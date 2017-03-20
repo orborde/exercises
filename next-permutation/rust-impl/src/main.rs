@@ -95,8 +95,7 @@ mod permute {
     fn vs_lib() {
         for l in 0..6 {
             let values = Vec::from_iter(0..l);
-            let mut stepper = Stepper::new(0, l, l);
-            for idxv in stepper {
+            for idxv in Stepper::new(0, l, l) {
                 println!("{:?}", idxv);
                 let arr = Vec::from_iter(idxv.iter().map(|i| values[i.clone()]));
                 test_cycle(arr);
