@@ -2,15 +2,13 @@
 // TODO: Parameterize index type.
 struct Stepper {
     state: Vec<usize>,
-    end:   usize,
-    start: usize
+    end:   usize
 }
 
 impl Stepper {
     fn new(start: usize, end: usize, length: usize) -> Stepper {
         Stepper {
             state: vec![start; length],
-            start: start,
             end:   end
         }
     }
