@@ -67,4 +67,17 @@ mod tests {
         let mut stp = Stepper::new(1, 4, 0);
         assert!(stp.next().is_none());
     }
+
+    #[test]
+    fn rangeone() {
+        let mut stp = Stepper::new(1, 2, 4);
+        assert_eq!(stp.next().unwrap(), vec![1, 1, 1, 1]);
+        assert!(stp.next().is_none());
+    }
+
+    #[test]
+    fn rangezero() {
+        let mut stp = Stepper::new(1, 1, 4);
+        assert!(stp.next().is_none());
+    }
 }
