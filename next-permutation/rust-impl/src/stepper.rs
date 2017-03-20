@@ -63,4 +63,10 @@ mod tests {
         assert_eq!(stp.next().unwrap(), vec![3, 3, 3]);
         assert!(stp.next().is_none());
     }
+
+    #[test]
+    fn zerolen() {
+        let mut stp = Stepper::new(1, 4, 0);
+        assert!(stp.next().is_none());
+    }
 }
