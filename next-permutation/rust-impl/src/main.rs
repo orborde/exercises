@@ -1,6 +1,6 @@
 mod stepper;
 
-fn find_insertion_point(v: &Vec<i32>, val: i32, start: usize) -> usize {
+fn find_insertion_point(v: &Vec<usize>, val: usize, start: usize) -> usize {
     assert!(start > 0);
     assert!(v.len() > 0);
 
@@ -32,7 +32,7 @@ mod find_insertion_point {
     }
 }
 
-fn permute(arr: &mut Vec<i32>) {
+fn permute(arr: &mut Vec<usize>) {
     // The right-hand subarray is in descending order. Figure out how
     // far left that subarray goes.
     let mut subarray_start = arr.len() - 1;
@@ -57,7 +57,7 @@ fn permute(arr: &mut Vec<i32>) {
 mod permute {
     use super::permute;
 
-    fn permute_wrapper(mut arr: Vec<i32>) -> Vec<i32> {
+    fn permute_wrapper(mut arr: Vec<usize>) -> Vec<usize> {
         permute(&mut arr);
         return arr
     }
