@@ -1,12 +1,12 @@
 // TODO: This is a crappy name for this.
 // TODO: Parameterize index type.
-struct Stepper {
+pub struct Stepper {
     state: Vec<usize>,
     end:   usize
 }
 
 impl Stepper {
-    fn new(start: usize, end: usize, length: usize) -> Stepper {
+    pub fn new(start: usize, end: usize, length: usize) -> Stepper {
         Stepper {
             state: vec![start; length],
             end:   end
