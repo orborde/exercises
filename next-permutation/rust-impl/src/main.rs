@@ -1,5 +1,7 @@
 mod stepper;
 
+extern crate permutohedron;
+
 fn find_insertion_point(v: &Vec<usize>, val: usize, start: usize) -> usize {
     assert!(start > 0);
     assert!(v.len() > 0);
@@ -66,6 +68,40 @@ mod permute {
     fn simple() {
         assert_eq!(permute_wrapper(vec![1,2]), vec![2,1]);
         assert_eq!(permute_wrapper(vec![2,1]), vec![1,2]);
+    }
+
+    use permutohedron::LexicalPermutation;
+    // Permutohedron actually already implements this, so I'll go
+    // ahead and test against that. Yes, this is goofy - I want to
+    // check whether I got it right!
+    fn test_cycle(start: Vec<usize>) {
+        let mut cur = start.clone();
+        let mut lib_cur = cur.clone();
+        loop {
+            assert_eq!(cur, lib_cur);
+
+            permute(&mut cur);
+            if !lib_cur.next_permutation() {
+                break
+            }
+        }
+        // Okay, permute() should have looped around to the beginning.
+        assert_eq!(cur, start);
+    }
+
+    use std::iter::FromIterator;
+    use stepper::Stepper;
+    #[test]
+    fn vs_lib() {
+        for l in 0..6 {
+            let values = Vec::from_iter(0..l);
+            let mut stepper = Stepper::new(0, l, l);
+            for idxv in stepper {
+                println!("{:?}", idxv);
+                let arr = Vec::from_iter(idxv.iter().map(|i| values[i.clone()]));
+                test_cycle(arr);
+            }
+        }
     }
 }
 
