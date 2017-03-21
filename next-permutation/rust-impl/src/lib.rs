@@ -90,12 +90,12 @@ mod permute {
     }
 
     use std::iter::FromIterator;
-    use stepper::Stepper;
+    use stepper::stepper;
     #[test]
     fn vs_lib() {
         for l in 0..6 {
             let values = Vec::from_iter(0..l);
-            for idxv in Stepper::new(0, l, l) {
+            for idxv in stepper(0, l, l) {
                 println!("{:?}", idxv);
                 let arr = Vec::from_iter(idxv.iter().map(|i| values[i.clone()]));
                 test_cycle(arr);

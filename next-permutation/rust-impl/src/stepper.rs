@@ -6,13 +6,6 @@ pub struct Stepper {
 }
 
 impl Stepper {
-    pub fn new(start: usize, end: usize, length: usize) -> Stepper {
-        Stepper {
-            state: vec![start; length],
-            end:   end
-        }
-    }
-
     fn incr_at(&mut self, idx: usize) {
         assert!(self.state[idx] < self.end);
         self.state[idx] += 1;
@@ -42,13 +35,20 @@ impl Iterator for Stepper {
     }
 }
 
+pub fn stepper(start: usize, end: usize, length: usize) -> Stepper {
+    Stepper {
+        state: vec![start; length],
+        end:   end
+    }
+}
+
 #[cfg(test)]
 mod tests {
-    use super::Stepper;
+    use super::stepper;
 
     #[test]
     fn simple() {
-        let mut stp = Stepper::new(1, 4, 3);
+        let mut stp = stepper(1, 4, 3);
         assert_eq!(stp.next().unwrap(), vec![1, 1, 1]);
         assert_eq!(stp.next().unwrap(), vec![1, 1, 2]);
         assert_eq!(stp.next().unwrap(), vec![1, 1, 3]);
@@ -64,20 +64,20 @@ mod tests {
 
     #[test]
     fn zerolen() {
-        let mut stp = Stepper::new(1, 4, 0);
+        let mut stp = stepper(1, 4, 0);
         assert!(stp.next().is_none());
     }
 
     #[test]
     fn rangeone() {
-        let mut stp = Stepper::new(1, 2, 4);
+        let mut stp = stepper(1, 2, 4);
         assert_eq!(stp.next().unwrap(), vec![1, 1, 1, 1]);
         assert!(stp.next().is_none());
     }
 
     #[test]
     fn rangezero() {
-        let mut stp = Stepper::new(1, 1, 4);
+        let mut stp = stepper(1, 1, 4);
         assert!(stp.next().is_none());
     }
 }
