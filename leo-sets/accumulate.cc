@@ -1,14 +1,15 @@
 #include <cassert>
 #include <unistd.h> // lol
 #include <iostream>
-#include <map>
+#include <unordered_map>
 #include <set>
 #include <string>
 
 using namespace std;
 
 int main() {
-  map<string, set<int> > d;
+  unordered_map<string, set<int> > d;
+  d.reserve(7000000);
   string line;
   while (getline(cin, line)) {
 		assert(line.length() == 5);
