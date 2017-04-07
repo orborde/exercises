@@ -1,4 +1,5 @@
 #include <cassert>
+#include <unistd.h> // lol
 #include <iostream>
 #include <map>
 #include <set>
@@ -18,5 +19,5 @@ int main() {
 		}
 	}
 
-	while(1);
+	sleep(100000000);
 }
