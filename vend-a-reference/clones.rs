@@ -1,3 +1,6 @@
+// Not part of the library. I just put this together to see what the
+// compiler was doing under the hood.
+
 fn vendvec(v: &Vec<i32>) -> Vec<i32> {
     v.clone()
 }
