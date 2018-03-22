@@ -47,19 +47,6 @@ for fam, atoms in FAMILIES.items():
         assert atom not in ALL_ATOMS
         ALL_ATOMS.add(atom)
 
-import itertools
-
-RELATIONS = []
-for fa,fb in itertools.combinations(FAMILIES.values(),r=2):
-    for ta, tb in itertools.product(fa,fb):
-        RELATIONS.append( (ta,tb) )
-RELATIONS = [tuple(sorted(r)) for r in RELATIONS]
-RELATIONS.sort()
-assert len(set(RELATIONS)) == len(RELATIONS)
-print len(RELATIONS), 'possible relations'
-
-assert (0,1) not in RELATIONS
-
 def valid(*args):
     for x in args:
         assert x in ALL_ATOMS
@@ -67,6 +54,18 @@ def valid(*args):
 def key(x,y):
     valid(x,y)
     return tuple(sorted([x,y]))
+
+import itertools
+RELATIONS = []
+for fa,fb in itertools.combinations(FAMILIES.values(),r=2):
+    for ta, tb in itertools.product(fa,fb):
+        RELATIONS.append( (ta,tb) )
+RELATIONS = [key(*r) for r in RELATIONS]
+RELATIONS.sort()
+assert len(set(RELATIONS)) == len(RELATIONS)
+print len(RELATIONS), 'possible relations'
+
+assert (0,1) not in RELATIONS
 
 def is_related(world,x,y):
     return key(x,y) in world
@@ -257,7 +256,7 @@ def satisfied(world,debug=DEBUG):
     return True
 
 import copy
-def solve(world=set(),start=0,depth=0):
+def solve(world,relations,start=0,depth=0):
     if DEBUG:
         print 'depth', depth,'start',start, sorted(world)
 
@@ -271,8 +270,8 @@ def solve(world=set(),start=0,depth=0):
             print 'SOLVE!'
         yield copy.deepcopy(world)
 
-    for idx in xrange(start, len(RELATIONS)):
-        prospect = RELATIONS[idx]
+    for idx in xrange(start, len(relations)):
+        prospect = relations[idx]
         assert prospect not in world
 
         if DEBUG:
@@ -280,11 +279,27 @@ def solve(world=set(),start=0,depth=0):
 
         world.add(prospect)
 
-        for solution in solve(world,start=idx+1,depth=depth+1):
+        for solution in solve(world,relations,start=idx+1,depth=depth+1):
             yield solution
 
         world.remove(prospect)
 
-for idx, solution in enumerate(solve()):
+startworld=set()
+remaining_relations = set(RELATIONS)
+for c in CONSTRAINTS:
+    if c.__class__ is not equiv:
+        continue
+
+    # HACK HACK HACK
+    thm = key(c.x, c.y)
+    print 'seeding theorem:', thm
+    remaining_relations.remove(thm)
+    startworld.add(thm)
+remaining_relations=sorted(remaining_relations)
+assert len(startworld)+len(remaining_relations) == len(RELATIONS)
+print 'seeded',len(startworld),'theorems;',
+print len(remaining_relations),'remaining relations to try'
+
+for idx, solution in enumerate(solve(startworld,remaining_relations)):
     num = idx+1
     print num, solution
