@@ -250,7 +250,7 @@ def solve(world=set(),start=0,depth=0):
             print "couldn't be"
         return
 
-    if satisfied(world,debug=False):
+    if satisfied(world):
         if DEBUG:
             print 'SOLVE!'
         yield copy.deepcopy(world)
@@ -258,6 +258,10 @@ def solve(world=set(),start=0,depth=0):
     for idx in xrange(start, len(RELATIONS)):
         prospect = RELATIONS[idx]
         assert prospect not in world
+
+        if DEBUG:
+            print 'depth',depth,'trying',prospect
+
         world.add(prospect)
 
         for solution in solve(world,start=idx+1,depth=depth+1):
