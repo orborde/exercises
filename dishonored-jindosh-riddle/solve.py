@@ -1,3 +1,5 @@
+DEBUG=True
+
 heirloom = 'heirloom'
 color = 'color'
 drink = 'drink'
@@ -211,18 +213,28 @@ def satisfied(world):
     return all(constraint.satisfied(world) for constraint in CONSTRAINTS)
 
 import copy
-def solve(world=set()):
-    for prospect in RELATIONS:
-        if prospect in world:
-            continue
+def solve(world=set(),start=0,depth=0):
+    if DEBUG:
+        print depth,'start',start, world
 
+    if not could_be(world):
+        if DEBUG:
+            print "couldn't be"
+        return
+
+    if satisfied(world):
+        if DEBUG:
+            print 'SOLVE!'
+        yield copy.deepcopy(world)
+
+    for idx in xrange(start, len(RELATIONS)):
+        prospect = RELATIONS[idx]
+        assert prospect not in world
         world.add(prospect)
-        if could_be(world):
-            if satisfied(world):
-                yield copy.deepcopy(world)
 
-            for solution in solve(world):
-                yield solution
+        for solution in solve(world,start=idx+1,depth=depth+1):
+            yield solution
+
         world.remove(prospect)
 
 for idx, solution in enumerate(solve()):
