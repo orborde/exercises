@@ -135,7 +135,14 @@ def find_position(world, x):
 
 class is_next_to(binary_constraint):
     def could_be(self, world):
-        return True  # fuck it
+        xp = find_position(world, self.x)
+        yp = find_position(world, self.y)
+
+        if xp is None or yp is None:
+            return True
+
+        return self.satisfied(world)
+
     def satisfied(self, world):
         xp = find_position(world, self.x)
         yp = find_position(world, self.y)
@@ -144,6 +151,7 @@ class is_next_to(binary_constraint):
             return False
 
         return abs(yp-xp) == 1
+
     def __str__(self):
         return 'is_next_to({}, {})'.format(self.x, self.y)
 
