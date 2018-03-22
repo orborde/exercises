@@ -132,6 +132,30 @@ def find_position(world, x):
 
     return unique_relation(world, x, position)
 
+def adjacent_positions(x):
+    ret = []
+    if x > 0:
+        ret.append(x-1)
+    if x < 4:
+        ret.append(x+1)
+    return ret
+
+def position_could_be(world, yp, y):
+    if is_related(world, yp, y):
+        return True
+
+    for interloper in FAMILIES[family_of(y)]:
+        if is_related(world, yp, interloper):
+            return False
+
+    return True
+
+def could_be_adjacent_to(world, pos, y):
+    for yp in adjacent_positions(pos):
+        if not position_could_be(world, yp, y):
+            return False
+    return True
+
 class is_next_to(binary_constraint):
     def could_be(self, world):
         xp = find_position(world, self.x)
@@ -140,7 +164,17 @@ class is_next_to(binary_constraint):
         if (xp is not None) and (yp is not None):
             return self.satisfied(world)
 
-        return True
+        if xp is None and yp is None:
+            return True
+
+        # Figure out whether the adjacent space to x is bound to
+        # something non-y, or vice versa, as appropriate.
+        #
+        # Should I just give up, crack open AIMA, and read about CSPs?
+        if xp is not None:
+            return could_be_adjacent_to(world, xp, self.y)
+        else:
+            return could_be_adjacent_to(world, yp, self.x)
 
     def satisfied(self, world):
         xp = find_position(world, self.x)
