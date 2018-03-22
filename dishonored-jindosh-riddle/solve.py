@@ -202,3 +202,29 @@ for atom in ALL_ATOMS:
     GENERATED_CONSTRAINTS.append(uniquely_paired(atom))
 print len(GENERATED_CONSTRAINTS), 'generated constraints'
 
+CONSTRAINTS = BASE_CONSTRAINTS + GENERATED_CONSTRAINTS
+
+def could_be(world):
+    return all(constraint.could_be(world) for constraint in CONSTRAINTS)
+
+def satisfied(world):
+    return all(constraint.satisfied(world) for constraint in CONSTRAINTS)
+
+import copy
+def solve(world=set()):
+    for prospect in RELATIONS:
+        if prospect in world:
+            continue
+
+        world.add(prospect)
+        if could_be(world):
+            if satisfied(world):
+                yield copy.deepcopy(world)
+
+            for solution in solve(world):
+                yield solution
+        world.remove(prospect)
+
+for idx, solution in enumerate(solve()):
+    num = idx+1
+    print num, solution
