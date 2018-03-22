@@ -96,6 +96,9 @@ class equiv(binary_constraint):
     def satisfied(self, world):
         return is_related(world, self.x, self.y)
 
+    def __str__(self):
+        return 'equiv({}, {})'.format(self.x, self.y)
+
 def relation_count(world, x, family):
     assert family_of(x) != family
 
@@ -134,6 +137,8 @@ class is_next_to(binary_constraint):
             return False
 
         return abs(yp-xp) == 1
+    def __str__(self):
+        return 'is_next_to({}, {})'.format(self.x, self.y)
 
 class is_left_of(binary_constraint):
     def could_be(self, world):
@@ -153,6 +158,9 @@ class is_left_of(binary_constraint):
             return False
 
         return xp+1 == yp
+
+    def __str__(self):
+        return 'is_left_of({}, {})'.format(self.x, self.y)
 
 class uniquely_paired:
     def __init__(self, x):
@@ -178,6 +186,9 @@ class uniquely_paired:
                 return False
 
         return True
+
+    def __str__(self):
+        return 'uniquely_paired({} <{}>)'.format(self.x, self.xfam)
 
 BASE_CONSTRAINTS = [
     equiv(marcolla, red),
@@ -207,22 +218,32 @@ print len(GENERATED_CONSTRAINTS), 'generated constraints'
 CONSTRAINTS = BASE_CONSTRAINTS + GENERATED_CONSTRAINTS
 
 def could_be(world):
-    return all(constraint.could_be(world) for constraint in CONSTRAINTS)
+    for constraint in CONSTRAINTS:
+        if not constraint.could_be(world):
+            if DEBUG:
+                print "couldn't be:", constraint
+            return False
+    return True
 
-def satisfied(world):
-    return all(constraint.satisfied(world) for constraint in CONSTRAINTS)
+def satisfied(world,debug=DEBUG):
+    for constraint in CONSTRAINTS:
+        if not constraint.satisfied(world):
+            if debug:
+                print "doesn't satisfy:", constraint
+            return False
+    return True
 
 import copy
 def solve(world=set(),start=0,depth=0):
     if DEBUG:
-        print depth,'start',start, world
+        print 'depth', depth,'start',start, sorted(world)
 
     if not could_be(world):
         if DEBUG:
             print "couldn't be"
         return
 
-    if satisfied(world):
+    if satisfied(world,debug=False):
         if DEBUG:
             print 'SOLVE!'
         yield copy.deepcopy(world)
