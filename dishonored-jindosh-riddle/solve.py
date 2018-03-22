@@ -48,10 +48,17 @@ for fam, atoms in FAMILIES.items():
         ALL_ATOMS.add(atom)
 
 import itertools
-RELATIONS = list(itertools.combinations(ALL_ATOMS, r=2))
+
+RELATIONS = []
+for fa,fb in itertools.combinations(FAMILIES.values(),r=2):
+    for ta, tb in itertools.product(fa,fb):
+        RELATIONS.append( (ta,tb) )
 RELATIONS = [tuple(sorted(r)) for r in RELATIONS]
 RELATIONS.sort()
+assert len(set(RELATIONS)) == len(RELATIONS)
 print len(RELATIONS), 'possible relations'
+
+assert (0,1) not in RELATIONS
 
 def valid(*args):
     for x in args:
