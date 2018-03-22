@@ -141,7 +141,7 @@ class is_left_of(binary_constraint):
         if xp is None or yp is None:
             return True
 
-        return self.satisfied(self, world)
+        return self.satisfied(world)
 
     def satisfied(self, world):
         xp = find_position(world, self.x)
@@ -162,7 +162,7 @@ class uniquely_paired:
             if family == self.xfam:
                 continue
 
-            if relation_count(world, x, family) > 1:
+            if relation_count(world, self.x, family) > 1:
                 return False
 
         return True
