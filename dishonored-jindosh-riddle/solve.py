@@ -94,13 +94,32 @@ class equiv(binary_constraint):
     def satisfied(self, world):
         return is_related(world, self.x, self.y)
 
+def relation_count(world, x, family):
+    assert family_of(x) != family
+
+    ct = 0
+    for y in FAMILIES[family]:
+        if is_related(world, x, y):
+            ct += 1
+    return ct
+
+def unique_relation(world, x, family):
+    assert family_of(x) != family
+
+    if relation_count(world, x, family) != 1:
+        return None
+
+    for other in FAMILIES[family]:
+        if is_related(world,x,other):
+            return other
+
+    return None
+
 def find_position(world, x):
     if family_of(x) == position:
         return x
-    for pos in FAMILIES[position]:
-        if is_related(world,x,pos):
-            return pos
-    return None
+
+    return unique_relation(world, x, position)
 
 class is_next_to(binary_constraint):
     def could_be(self, world):
@@ -132,13 +151,6 @@ class is_left_of(binary_constraint):
             return False
 
         return xp+1 == yp
-
-def relation_count(world, x, family):
-    ct = 0
-    for y in FAMILIES[family]:
-        if is_related(world, x, y):
-            ct += 1
-    return ct
 
 class uniquely_paired:
     def __init__(self, x):
@@ -189,3 +201,4 @@ GENERATED_CONSTRAINTS = []
 for atom in ALL_ATOMS:
     GENERATED_CONSTRAINTS.append(uniquely_paired(atom))
 print len(GENERATED_CONSTRAINTS), 'generated constraints'
+
