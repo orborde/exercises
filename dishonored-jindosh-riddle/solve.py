@@ -172,7 +172,7 @@ class is_left_of(binary_constraint):
         if xp is None or yp is None:
             return False
 
-        return xp+1 == yp
+        return xp < yp
 
     def __str__(self):
         return 'is_left_of({}, {})'.format(self.x, self.y)
