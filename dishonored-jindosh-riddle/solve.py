@@ -152,6 +152,14 @@ class is_left_of(binary_constraint):
         xp = find_position(world, self.x)
         yp = find_position(world, self.y)
 
+        # Left-hand side is all the way to the right.
+        if xp == 4:
+            return False
+
+        # Right-hand side is all the way to the left.
+        if yp == 0:
+            return False
+
         if xp is None or yp is None:
             return True
 
