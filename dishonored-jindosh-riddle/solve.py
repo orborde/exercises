@@ -51,8 +51,6 @@ RELATIONS = [tuple(sorted(r)) for r in RELATIONS]
 RELATIONS.sort()
 print len(RELATIONS), 'possible relations'
 
-RELATION_INDEXES = {relation:idx for idx,relation in enumerate(RELATIONS)}
-
 def valid(*args):
     for x in args:
         assert x in ALL_ATOMS
@@ -62,10 +60,7 @@ def key(x,y):
     return tuple(sorted([x,y]))
 
 def is_related(world,x,y):
-    return world[RELATION_INDEXES[key(x,y)]]
-
-def set_related(world,x,y,to):
-    world[RELATION_INDEXES[key(x,y)]] = to
+    return key(x,y) in world
 
 FAMILY_INDEX = {}
 for fam, atoms in FAMILIES.items():
