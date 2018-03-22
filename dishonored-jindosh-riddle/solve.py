@@ -137,10 +137,10 @@ class is_next_to(binary_constraint):
         xp = find_position(world, self.x)
         yp = find_position(world, self.y)
 
-        if xp is None or yp is None:
-            return True
+        if (xp is not None) and (yp is not None):
+            return self.satisfied(world)
 
-        return self.satisfied(world)
+        return True
 
     def satisfied(self, world):
         xp = find_position(world, self.x)
