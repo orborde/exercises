@@ -1,3 +1,5 @@
+#! /usr/bin/env python3
+
 import collections
 import itertools
 from fractions import Fraction
@@ -37,7 +39,7 @@ def sell_sharded():
             sale = 0
             for amt,price in zip(schedule,prices):
                 sale += amt*price
-            #print schedule, prices, sale
+            #print(schedule, prices, sale)
             histo[sale] += 1
     return histo
 
@@ -60,9 +62,9 @@ def variance(histo):
 
 
 for f in [sell_at_once, sell_sharded]:
-    print f.__name__,
+    print(f.__name__,end=' ')
     histo = f()
-    print int(mean(histo)), int(variance(histo)),
+    print(int(mean(histo)), int(variance(histo)),end=' ')
     for k in sorted(histo.keys()):
-        print '{}:{}'.format(k, histo[k]),
-    print
+        print('{}:{}'.format(k, histo[k]),end=' ')
+    print()
