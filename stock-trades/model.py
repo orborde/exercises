@@ -3,7 +3,7 @@ import itertools
 from fractions import Fraction
 
 steps = 5
-start_price = Fraction(10)
+start_price = 10
 stocks = 20
 
 def gen_price_history():
@@ -36,6 +36,7 @@ def sell_sharded():
         sale = 0
         for amt,price in zip(schedule,prices):
             sale += amt*price
+        #print schedule, prices, sale
         histo[sale] += 1
     return histo
 
