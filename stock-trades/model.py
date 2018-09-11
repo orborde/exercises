@@ -26,18 +26,19 @@ def sell_at_once():
     return histo
 
 def sell_sharded():
-    schedule = []
+    base_schedule = []
     for _ in range(steps - 1):
-        schedule.append(int(stocks / steps))
-    schedule.append(stocks - sum(schedule))
+        base_schedule.append(int(stocks / steps))
+    base_schedule.append(stocks - sum(base_schedule))
 
     histo = collections.defaultdict(int)
-    for prices in gen_price_history():
-        sale = 0
-        for amt,price in zip(schedule,prices):
-            sale += amt*price
-        #print schedule, prices, sale
-        histo[sale] += 1
+    for schedule in itertools.permutations(base_schedule):
+        for prices in gen_price_history():
+            sale = 0
+            for amt,price in zip(schedule,prices):
+                sale += amt*price
+            #print schedule, prices, sale
+            histo[sale] += 1
     return histo
 
 def mean(histo):
