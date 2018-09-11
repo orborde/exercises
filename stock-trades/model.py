@@ -51,7 +51,7 @@ def variance(histo):
     u = mean(histo)
 
     sm,ct = 0,0
-    for wt,val in histo.items():
+    for val,wt in histo.items():
         sm += wt * ( (val-u) ** 2 )
         ct += wt
 
