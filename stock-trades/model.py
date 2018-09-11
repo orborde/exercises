@@ -22,6 +22,12 @@ def gen_price_history():
 
 def sell_at_once():
     for prices in gen_price_history():
+        sale = prices[0] * stocks
+        yield sale
+
+
+def sell_some_time():
+    for prices in gen_price_history():
         for pt in range(steps):
             sale = prices[pt] * stocks
             yield sale
@@ -41,7 +47,7 @@ def sell_sharded():
             yield sale
 
 
-for f in [sell_at_once, sell_sharded]:
+for f in [sell_at_once, sell_sharded, sell_some_time]:
     print(f.__name__,end=' ')
     outcomes = list(f())
     histo = collections.defaultdict(int)
